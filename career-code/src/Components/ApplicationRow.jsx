@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ApplicationRow = ({index, application}) => {
-    console.log("jlkjlkjkl",application);
+    // console.log("jlkjlkjkl",application);
     const {applicant } = application;
     return (
         <tr>

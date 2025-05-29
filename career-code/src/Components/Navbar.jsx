@@ -10,7 +10,11 @@ const Navbar = () => {
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/about'>About</NavLink></li>
         <li><NavLink to='/contact'>Contact</NavLink></li>
+        {/* for applicant */}
         <li><NavLink to='/myapplication'>My Application</NavLink></li>
+        {/* for employer */}
+        <li><NavLink to='/addjob'>Add Job</NavLink></li>
+        <li><NavLink to='/mypostedjobs'>My posted jobs</NavLink></li>
     </>
 
     const handleLogout = () => {
