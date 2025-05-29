@@ -39,7 +39,14 @@ async function run() {
 
 
         app.get('/jobs', async (req, res) => {
-            const result = await jobCollection.find().toArray();
+            const email = req.query.email;
+
+            const query = {}
+            if (email) {
+                query.hr_email = email;
+            }
+
+            const result = await jobCollection.find(query).toArray();
             res.send(result);
         })
         app.get('/jobs/:id', async (req, res) => {
@@ -48,24 +55,41 @@ async function run() {
             const result = await jobCollection.findOne(query);
             res.send(result);
         })
+        app.post('/jobs', async (req, res) => {
+            const newJob = req.body;
+            const result = await jobCollection.insertOne(newJob);
+            res.send(result);
+        })
 
 
         // application related api
         app.get('/applications', async (req, res) => {
-            const email = req.query.email;
-
-            const query = {
-                applicant: email
+            try {
+                const email = req.query.email;
+                let query = {};
+                if (email) {
+                    query = { applicant: email };
+                }
+                const result = await applicationCollection.find(query).toArray();
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ error: 'Failed to fetch applications', details: error.message });
             }
-            const result = await applicationCollection.find(query).toArray();
-            res.send(result);
-        })
+        });
+        
+
         app.post('/applications', async (req, res) => {
             const applicatin = req.body;
             const result = await applicationCollection.insertOne(applicatin);
             res.send(result);
         })
 
+        app.get('/applications/job/:job_Id', async (req, res) => {
+            const job_Id = req.params.job_Id;
+            const query = { jobId: job_Id };
+            const result = await applicationCollection.find(query).toArray();
+            res.send(result);
+        })
 
 
 
